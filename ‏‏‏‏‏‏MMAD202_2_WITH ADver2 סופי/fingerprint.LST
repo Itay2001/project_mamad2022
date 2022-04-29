@@ -1,0 +1,136 @@
+C51 COMPILER V9.60.0.0   FINGERPRINT                                                       05/11/2021 19:42:12 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE FINGERPRINT
+OBJECT MODULE PLACED IN .\obj\fingerprint.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE fingerprint.c LARGE OPTIMIZE(8,SPEED) INCDIR(.\font;.\LCD;.\sys;.\touch;
+                    -.\GUI;.\USER) DEBUG OBJECTEXTEND TABS(2) OBJECT(.\obj\fingerprint.obj)
+
+line level    source
+
+   1          
+   2          #include "initsys.h"
+   3          
+   4          U8 D[20];
+   5          U16 PageID; 
+   6          sbit d0=P0^7;
+   7          //trasmit
+   8          U8 code collect[]= {0XEF,0X01,0XFF,0XFF,0XFF,0XFF,0X01,0X00,0X03,0X01,0X00,0X05};
+   9          U8 code generate[]={0XEF,0X01,0XFF,0XFF,0XFF,0XFF,0X01,0X00,0X04,0X02,0X01,0X00,0X08};
+  10          U8 code search[]=  {0XEF,0X01,0XFF,0XFF,0XFF,0XFF,0X01,0X00,0X08,0X1B,0X01,0X00,0X00,0X03,0XE9,0X01,0X11};
+  11          
+  12          
+  13          void ClearFIFO(void)
+  14          { 
+  15   1        char tav; 
+  16   1        do
+  17   1        {
+  18   2          SCON1=SCON1&0Xfe;
+  19   2          tav=SBUF1;
+  20   2        }
+  21   1        while(SCON1&1);
+  22   1        SCON1=SCON1&0X7f; //clear ovr1 
+  23   1      }
+  24          
+  25          void PUTCHAR1(char tav)
+  26          {
+  27   1        SBUF1=tav;
+  28   1        while((SCON1&2)==0); //(TI1==0)
+  29   1        SCON1=SCON1&(~2);    //TI1 = 0;  
+  30   1      }
+  31          
+  32          char GETCHAR1(void)
+  33          {
+  34   1        char tav;
+  35   1        //read from uart
+  36   1        while((SCON1&1)==0); //(RI1==0);
+  37   1        SCON1=SCON1&0Xfe;  //RI1=0;
+  38   1        tav=SBUF1;
+  39   1        return(tav);
+  40   1      }
+  41          
+  42          
+  43          void PUTCHAR0(char tav)
+  44          {
+  45   1        SBUF0=tav;
+  46   1        while(TI0==0);
+  47   1        TI0=0;
+  48   1      }
+  49          
+  50          char GETCHAR0(void)
+  51          {
+  52   1        while(RI0==0); 
+  53   1        RI0=0;
+  54   1        return SBUF0;
+C51 COMPILER V9.60.0.0   FINGERPRINT                                                       05/11/2021 19:42:12 PAGE 2   
+
+  55   1      }
+  56          int FindFinger(void)
+  57          {
+  58   1        int i;
+  59   1        ClearFIFO();
+  60   1        /////////////////collect////////////////////////////////
+  61   1      
+  62   1        LCD_print2C(120,230,"collect   ",2,BLACK, YELLOW);  
+  63   1        do
+  64   1        {
+  65   2          for(i=0;i<12;i++)
+  66   2            PUTCHAR1(collect[i]);
+  67   2      
+  68   2          for(i=0;i<12;i++)
+  69   2            D[i]=GETCHAR1();
+  70   2      
+  71   2          delay_ms(100);    
+  72   2        }
+  73   1        while(D[9]);
+  74   1      
+  75   1      
+  76   1        /////////////////////generate//////////////////////////////////////
+  77   1        LCD_print2C(120,230,"generate   ",2,BLACK, YELLOW);   
+  78   1        do
+  79   1        {
+  80   2          for(i=0;i<13;i++)
+  81   2            PUTCHAR1(generate[i]);
+  82   2      
+  83   2          for(i=0;i<12;i++)
+  84   2            D[i]=GETCHAR1();
+  85   2      
+  86   2          delay_ms(100);    
+  87   2        }
+  88   1        while(D[9]);
+  89   1      
+  90   1        ///////////////search//////////////////////////
+  91   1        LCD_print2C(120,230,"search  ",2,BLACK, YELLOW);    
+  92   1      
+  93   1        for(i=0;i<17;i++)
+  94   1          PUTCHAR1(search[i]);
+  95   1        for(i=0;i<16;i++)
+  96   1          D[i]=GETCHAR1();
+  97   1      
+  98   1        if(D[9]==0)
+  99   1        {
+ 100   2          PageID=(D[10]<<8)+D[11];
+ 101   2          return 1;
+ 102   2        }
+ 103   1        else
+ 104   1        {
+ 105   2          return 0;
+ 106   2        }
+ 107   1      }
+ 108          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    572    ----
+   CONSTANT SIZE    =     74    ----
+   XDATA SIZE       =     22       3
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+C51 COMPILER V9.60.0.0   FINGERPRINT                                                       05/11/2021 19:42:12 PAGE 3   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

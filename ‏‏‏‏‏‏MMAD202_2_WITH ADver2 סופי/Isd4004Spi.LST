@@ -1,0 +1,162 @@
+C51 COMPILER V9.60.0.0   ISD4004SPI                                                        04/27/2022 16:39:46 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ISD4004SPI
+OBJECT MODULE PLACED IN .\obj\Isd4004Spi.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Isd4004Spi.c LARGE OPTIMIZE(8,SPEED) INCDIR(.\font;.\LCD;.\sys;.\touch;.
+                    -\GUI;.\USER) DEBUG OBJECTEXTEND TABS(2) OBJECT(.\obj\Isd4004Spi.obj)
+
+line level    source
+
+   1          // Isd4004Spi.c
+   2          #include "initsys.h"
+   3          #include "Isd4004Spi.h"
+   4          
+   5          
+   6          void SpiWrite(U8 cod);    
+   7          void SpiWriteAddCode(U16 add, U8 cod);
+   8          U8 reverse (U8 num);
+   9          
+  10          
+  11          void SpiWrite(U8 cod)             
+  12          {
+  13   1        SS=0;
+  14   1        SPIF = 0;    // 
+  15   1        SPI0DAT = reverse(cod);  // start SPI transmision 
+  16   1        while(!SPIF);    // wait for SPI finish 
+  17   1        SPIF = 0;
+  18   1        SS=1; 
+  19   1      }
+  20          
+  21          
+  22          
+  23          void SpiWriteAddCode(U16 add, U8 cod)
+  24          {
+  25   1        SS=0;
+  26   1        SPIF = 0; 
+  27   1        SPI0DAT = reverse(add);
+  28   1        while(!SPIF);
+  29   1        SPIF = 0;
+  30   1        SPI0DAT = reverse(add>>8);
+  31   1        while(!SPIF);
+  32   1        SPIF = 0;
+  33   1        SPI0DAT = reverse(cod);
+  34   1        while(!SPIF);
+  35   1        SS=1;
+  36   1      }
+  37          
+  38          
+  39          
+  40          void Play(unsigned int add)
+  41          {
+  42   1        U8 temp;
+  43   1        temp=SPI0CKR;
+  44   1        SPI0CKR   = 0x17;//1MHz
+  45   1      
+  46   1        add=(add*5)/2; //sec
+  47   1      
+  48   1        SpiWrite(0x20); //powerup
+  49   1        delay_ms(60);    //60msec
+  50   1        SpiWriteAddCode(add,0xe0); //send address+setplay
+  51   1      
+  52   1        //while(INT);
+  53   1        //SPI_RW(0x10);  //stoppowerdown
+  54   1      
+C51 COMPILER V9.60.0.0   ISD4004SPI                                                        04/27/2022 16:39:46 PAGE 2   
+
+  55   1        delay_ms(110);//Tstop
+  56   1      
+  57   1        SPI0CKR   = temp;
+  58   1      }
+  59          
+  60          void PlayI(unsigned int add)
+  61          {
+  62   1        U8 temp;
+  63   1        temp=SPI0CKR;
+  64   1        SPI0CKR   = 0x17;//1MHz
+  65   1      
+  66   1        add=(add*5)/2; //sec
+  67   1      
+  68   1        SpiWrite(0x20); //powerup
+  69   1        delay_ms(60);    //60msec
+  70   1        SpiWriteAddCode(add,0xe0); //send address+setplay
+  71   1      
+  72   1        while(INT);
+  73   1        SpiWrite(0x10);  //stoppowerdown
+  74   1      
+  75   1        delay_ms(110);//Tstop
+  76   1      
+  77   1        SPI0CKR   = temp;
+  78   1      }
+  79          
+  80          
+  81          
+  82          void Record(unsigned int add)
+  83          {
+  84   1        U8 temp;
+  85   1        temp=SPI0CKR;
+  86   1        SPI0CKR   = 0x17;//1MHz
+  87   1      
+  88   1        add=(add*5)/2; //sec
+  89   1        while(rec==1);
+  90   1        delay_ms(20);
+  91   1      
+  92   1        SpiWrite(0x20); //powerup
+  93   1        delay_ms(60);    //60msec
+  94   1        SpiWrite(0x20);  //powerup
+  95   1        delay_ms(110);
+  96   1        SpiWriteAddCode(add,0xa0); //send address+setrec
+  97   1        while(rec==0);  //wait end record
+  98   1        SpiWrite(0x10);  //stoppowerdown
+  99   1        delay_ms(110); //Tstop 
+ 100   1      
+ 101   1        SPI0CKR   = temp;
+ 102   1      }
+ 103          
+ 104          
+ 105          U8 ReadStatus(void)
+ 106          {
+ 107   1        U8 temp;
+ 108   1        long status=0;
+ 109   1        temp=SPI0CKR;
+ 110   1        SPI0CKR   = 0x17;//1MHz
+ 111   1      
+ 112   1        SS=0;
+ 113   1      
+ 114   1        SPIF = 0;
+ 115   1        SPI0DAT = 0;
+ 116   1        while(!SPIF);
+C51 COMPILER V9.60.0.0   ISD4004SPI                                                        04/27/2022 16:39:46 PAGE 3   
+
+ 117   1        status=reverse(SPI0DAT);
+ 118   1      
+ 119   1        SS=1;
+ 120   1        SPI0CKR   = temp;
+ 121   1      
+ 122   1        return status;
+ 123   1      }
+ 124          
+ 125          
+ 126          
+ 127          U8 reverse (volatile U8 num)
+ 128          {
+ 129   1        num = ((num & 0xf0) >> 4)|(( num & 0x0f) << 4);  // efghabcd
+ 130   1        num = ((num & 0xcc) >> 2) | ((num & 0x33 )<< 2);  // ghefcdab 
+ 131   1        num = ((num & 0xaa) >> 1) | ((num & 0x55) << 1);  // hgfedcba
+ 132   1        return num;
+ 133   1      }
+ 134          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    456    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      18
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,8 @@
+".\obj\main.obj",
+".\obj\init380.obj",
+".\SYS19.LIB",
+".\obj\Isd4004Spi.obj" 
+TO ".\obj\ceshi" 
+PRINT(".\ceshi.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 
+XDATA( 0X0000-0X0FFF )

@@ -1,0 +1,149 @@
+C51 COMPILER V9.60.0.0   INIT380                                                           04/27/2022 16:39:45 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE INIT380
+OBJECT MODULE PLACED IN .\obj\init380.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE init380.c LARGE OPTIMIZE(8,SPEED) INCDIR(.\font;.\LCD;.\sys;.\touch;.\GU
+                    -I;.\USER) DEBUG OBJECTEXTEND TABS(2) OBJECT(.\obj\init380.obj)
+
+line level    source
+
+   1          // init380.c
+   2          /////////////////////////////////////
+   3          //  Generated Initialization File  //
+   4          /////////////////////////////////////
+   5          
+   6          #include "compiler_defs.h"
+   7          #include "C8051F380_defs.h"
+   8          
+   9          // Peripheral specific initialization functions,
+  10          // Called from the Init_Device() function
+  11          void PCA_Init()
+  12          {
+  13   1          PCA0CN    = 0x40;
+  14   1          PCA0MD    &= ~0x40;
+  15   1          PCA0MD    = 0x00;
+  16   1          PCA0CPM0  = 0xC2;
+  17   1          PCA0CPM1  = 0xC2;
+  18   1      }
+  19          
+  20          void Timer_Init()
+  21          {
+  22   1          TCON      = 0x40;
+  23   1          TMOD      = 0x20;
+  24   1          TH1       = 0x30;
+  25   1      }
+  26          
+  27          void UART_Init()
+  28          {
+  29   1          SCON0     = 0x10;
+  30   1          SBRLL1    = 0x5F;
+  31   1          SBRLH1    = 0xFE;
+  32   1          SCON1     = 0x10;
+  33   1          SBCON1    = 0x43;
+  34   1      }
+  35          
+  36          void SPI_Init()
+  37          {
+  38   1          SPI0CFG   = 0x40;
+  39   1          SPI0CN    = 0x01;
+  40   1          SPI0CKR   = 0x17;
+  41   1      }
+  42          
+  43          void ADC_Init()
+  44          {
+  45   1          AMX0P     = 0x15;
+  46   1          AMX0N     = 0x1F;
+  47   1          ADC0CN    = 0x80;
+  48   1      }
+  49          
+  50          void Voltage_Reference_Init()
+  51          {
+  52   1          REF0CN    = 0x10;
+  53   1      }
+  54          
+C51 COMPILER V9.60.0.0   INIT380                                                           04/27/2022 16:39:45 PAGE 2   
+
+  55          void Port_IO_Init()
+  56          {
+  57   1          // P0.0  -  SCK  (SPI0), Push-Pull,  Digital
+  58   1          // P0.1  -  MISO (SPI0), Open-Drain, Digital
+  59   1          // P0.2  -  MOSI (SPI0), Push-Pull,  Digital
+  60   1          // P0.3  -  Skipped,     Open-Drain, Digital
+  61   1          // P0.4  -  TX0 (UART0), Push-Pull,  Digital
+  62   1          // P0.5  -  RX0 (UART0), Open-Drain, Digital
+  63   1          // P0.6  -  Skipped,     Open-Drain, Digital
+  64   1          // P0.7  -  Skipped,     Open-Drain, Digital
+  65   1      
+  66   1          // P1.0  -  Skipped,     Open-Drain, Analog
+  67   1          // P1.1  -  CEX0  (PCA), Push-Pull,  Digital
+  68   1          // P1.2  -  CEX1  (PCA), Push-Pull,  Digital
+  69   1          // P1.3  -  Unassigned,  Push-Pull,  Digital
+  70   1          // P1.4  -  Unassigned,  Open-Drain, Digital
+  71   1          // P1.5  -  Unassigned,  Open-Drain, Digital
+  72   1          // P1.6  -  Unassigned,  Open-Drain, Digital
+  73   1          // P1.7  -  Unassigned,  Open-Drain, Digital
+  74   1      
+  75   1          // P2.0  -  Unassigned,  Open-Drain, Digital
+  76   1          // P2.1  -  Unassigned,  Open-Drain, Digital
+  77   1          // P2.2  -  Unassigned,  Open-Drain, Digital
+  78   1          // P2.3  -  Unassigned,  Open-Drain, Digital
+  79   1          // P2.4  -  Unassigned,  Open-Drain, Digital
+  80   1          // P2.5  -  Unassigned,  Open-Drain, Digital
+  81   1          // P2.6  -  Unassigned,  Open-Drain, Digital
+  82   1          // P2.7  -  Unassigned,  Open-Drain, Digital
+  83   1      
+  84   1          // P3.0  -  Unassigned,  Open-Drain, Digital
+  85   1          // P3.1  -  Unassigned,  Open-Drain, Digital
+  86   1          // P3.2  -  Unassigned,  Open-Drain, Digital
+  87   1          // P3.3  -  Unassigned,  Open-Drain, Digital
+  88   1          // P3.4  -  Unassigned,  Open-Drain, Digital
+  89   1          // P3.5  -  Unassigned,  Open-Drain, Digital
+  90   1          // P3.6  -  Unassigned,  Open-Drain, Digital
+  91   1          // P3.7  -  Unassigned,  Open-Drain, Digital
+  92   1      
+  93   1          P1MDIN    = 0xFE;
+  94   1          P0MDOUT   = 0x15;
+  95   1          P1MDOUT   = 0x0E;
+  96   1          P0SKIP    = 0xC8;
+  97   1          P1SKIP    = 0x01;
+  98   1          XBR0      = 0x03;
+  99   1          XBR1      = 0x42;
+ 100   1      }
+ 101          
+ 102          void Oscillator_Init()
+ 103          {
+ 104   1          FLSCL     = 0x90;
+ 105   1          CLKSEL    = 0x03;
+ 106   1          OSCICN    = 0xC3;
+ 107   1      }
+ 108          
+ 109          // Initialization function for device,
+ 110          // Call Init_Device() from your main program
+ 111          void Init_Device(void)
+ 112          {
+ 113   1          PCA_Init();
+ 114   1          Timer_Init();
+ 115   1          UART_Init();
+ 116   1          SPI_Init();
+C51 COMPILER V9.60.0.0   INIT380                                                           04/27/2022 16:39:45 PAGE 3   
+
+ 117   1          ADC_Init();
+ 118   1          Voltage_Reference_Init();
+ 119   1          Port_IO_Init();
+ 120   1          Oscillator_Init();
+ 121   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    122    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

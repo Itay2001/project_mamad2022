@@ -1,0 +1,8 @@
+﻿  ConsoleApplication1.cpp
+C:\Users\itay2\Desktop\ניסוי פרויקט\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(54,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\itay2\Desktop\ניסוי פרויקט\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(57,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\itay2\Desktop\ניסוי פרויקט\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(59,38): warning C4244: '=': conversion from 'float' to 'short', possible loss of data
+C:\Users\itay2\Desktop\ניסוי פרויקט\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(69,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\itay2\Desktop\ניסוי פרויקט\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(72,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\itay2\Desktop\ניסוי פרויקט\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(75,14): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  ConsoleApplication1.vcxproj -> C:\Users\itay2\Desktop\ניסוי פרויקט\ConsoleApplication1\Debug\ConsoleApplication1.exe

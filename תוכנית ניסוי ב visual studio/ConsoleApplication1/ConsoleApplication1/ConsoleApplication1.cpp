@@ -2,7 +2,7 @@
 #include <iostream>
 // goertzel_c_project_demo.cpp : Defines the entry point for the console application.
 // 
-// This project by liron & anastasiya is simulation of goertzel method 
+// This project by itay & nadav is simulation of goertzel method 
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdlib.h>

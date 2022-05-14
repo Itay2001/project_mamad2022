@@ -131,6 +131,8 @@ void main(void)
 				LCD_print2C(20,110,"Bluetooth  ",3,WHITE,BLACK);
         LCD_print2C(20,150,"Send SMS  ",3,WHITE,BLACK);				
 				SetTarget(1); // before sending to BT switch printf to uart
+				printf("%%");
+				delay_ms(1000);
 				printf("*0533360973");
 				delay_ms(1000);
 				printf("#xxxxxxxxxxxxx1");
@@ -142,6 +144,8 @@ void main(void)
 				printf("#caseft2");
 				delay_ms(1000);
 				printf("$");
+				delay_ms(1000);
+				printf("%%");
 				SetTarget(0);
 				MenuScreen();
 			}
@@ -189,6 +193,8 @@ void start_work()
 		delay_ms(100);
 	  // SEND SMS TO ALL CLIENTS 
 				SetTarget(1); // uart
+				printf("%%");
+				delay_ms(1000);
 				printf("*0504502266");
 				delay_ms(1000);
 				printf("#RED COLOR ALARM");
@@ -200,6 +206,8 @@ void start_work()
 				printf("#RED COLOR ALARM");
 				delay_ms(1000);
 				printf("$");
+				delay_ms(1000);
+				printf("%%");
 				SetTarget(0); // LCD
   
 	

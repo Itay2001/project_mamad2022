@@ -57,8 +57,8 @@ void servo(unsigned int Width)
 	if(Width<700) Width=700;
 	Width=-4*Width;
 	
-		PCA0CPL0= Width;
-		PCA0CPH0= Width>>8;	
+	PCA0CPL0= Width;
+	PCA0CPH0= Width>>8;	
 }
 void servo2(unsigned int Width)  
 {
@@ -66,8 +66,8 @@ void servo2(unsigned int Width)
 	if(Width<700) Width=700;
 	Width=-4*Width;
 	
-		PCA0CPL1= Width;
-		PCA0CPH1= Width>>8;	
+	PCA0CPL1= Width;
+	PCA0CPH1= Width>>8;	
 }
 
 
@@ -76,7 +76,7 @@ void main(void)
 	S16 x=0, y=0,  ButtonNum;
 	Init_Device();
 	initSYS();  // initalize the touch LCD library + delay function 
-  servo(OPEN_WINDOWS);
+  	servo(OPEN_WINDOWS);
 	servo2(OPEN_WINDOWS);
 	MenuScreen();
 
@@ -129,7 +129,7 @@ void main(void)
 			else if(ButtonNum==5) {
 				LCD_fillScreen(BLACK);	
 				LCD_print2C(20,110,"Bluetooth  ",3,WHITE,BLACK);
-        LCD_print2C(20,150,"Send SMS  ",3,WHITE,BLACK);				
+        			LCD_print2C(20,150,"Send SMS  ",3,WHITE,BLACK);				
 				SetTarget(1); // before sending to BT switch printf to uart
 				printf("%%");
 				delay_ms(1000);
@@ -175,23 +175,24 @@ void main(void)
 	LCD_drawButton(4,10, 200,60,60, 10, YELLOW,BLACK,"SERVO",2);
 	LCD_drawButton(5,80, 200,60,60, 10, BLUE,WHITE,"blue ",2);
 	LCD_drawButton(6,150, 200,60,60, 10, RED,BLACK,"finger ",2);
-  LCD_setText2Color(WHITE,BLACK);
+  	LCD_setText2Color(WHITE,BLACK);
 }
 
 
 //from previous project 
 void start_work()
 {
-	  int i;
-		LCD_fillScreen(BLACK);
-	  while ( IsAlarmDetected2()==0 ) ;//check alarm detected or abort 
-	  // reverse the data that is been sent to P3.7 - P3.4 to trigger VT at reciver side  
-	  P2 = P2 ^ 0xF0 ;  
-	  LCD_fillScreen(BLACK);
-	  LCD_print2C(20,30,"alarm detected",1,WHITE,BLACK);
-	  PlayI (ALARM_DETECTED);
-		delay_ms(100);
-	  // SEND SMS TO ALL CLIENTS 
+	int i;
+	LCD_fillScreen(BLACK);
+	while ( IsAlarmDetected2()==0 ) ;//check alarm detected or abort 
+	// reverse the data that is been sent to P3.7 - P3.4 to trigger VT at reciver side  
+	P2 = P2 ^ 0xF0 ;  
+	LCD_fillScreen(BLACK);
+	LCD_print2C(20,30,"alarm detected",1,WHITE,BLACK);
+	PlayI (ALARM_DETECTED);
+	PlayI (GET_INSIDE_THE_ROOM);
+	delay_ms(100);
+	// SEND SMS TO ALL CLIENTS 
 				SetTarget(1); // uart
 				printf("%%");
 				delay_ms(1000);
@@ -211,17 +212,16 @@ void start_work()
 				SetTarget(0); // LCD
   
 	
-	  LCD_print2C(20,60,"go to safe room",1,WHITE,BLACK);
-		PlayI (GET_INSIDE_THE_ROOM);
+	  	LCD_print2C(20,60,"go to safe room",1,WHITE,BLACK);
 		//close_window ;
-	  servo(CLOSE_WINDOWS);
-    servo2(CLOSE_WINDOWS)	;
+	  	servo(CLOSE_WINDOWS);
+    		servo2(CLOSE_WINDOWS)	;
 		for(i=0;i<DELAY_FOR_STAY_IN_ROOM;i++)
 		{
 			 delay_ms(1);
-       sprintf(my_string,"i=%d",i);	
-       LCD_print2C(20,60,my_string,1,WHITE,BLACK);			
-       if (IsAlarmDetected2()==1)
+     			  sprintf(my_string,"i=%d",i);	
+     			  LCD_print2C(20,60,my_string,1,WHITE,BLACK);			
+    			  if (IsAlarmDetected2()==1)
 			 { 
 				 i=0;
 				 sprintf(my_string,"i=%d",i);
@@ -232,7 +232,7 @@ void start_work()
 		} 
 		//open_window
 		servo(OPEN_WINDOWS);
-    servo2(OPEN_WINDOWS);	
+   		servo2(OPEN_WINDOWS);	
 		LCD_print2C(20,60,"get out of room",1,WHITE,BLACK);	
 		PlayI(GET_OUT_OF_THE_ROOM);
 }
@@ -250,20 +250,20 @@ int IsAlarmDetected2()
 	{
 		NumInstans[j] = 0;	
 	}
-  for(j=0;j<600/NUM_OF_FREQ_TO_CHECK;j++)
+  	for(j=0;j<600/NUM_OF_FREQ_TO_CHECK;j++)
 	{		
 	  for(i=0;i<205;i++)   
 		 { 
 				data_in[i]=2*ADC_IN(21);	//P1.0 num=21
 				delay_us(112);//dt sample
 			  
-	   }	
+	  	 }	
 
-    for(i=0;i<NUM_OF_FREQ_TO_CHECK;i++)
+		for(i=0;i<NUM_OF_FREQ_TO_CHECK;i++)
 		 {
 			 mag_temp=(int)(goertzel_mag(205,wave_property_arr[i].freq,8000));
 			 k++;	
-	    //sprintf(my_string,"m=%3d f=%3d i=%d",mag_temp,wave_property_arr[i].freq,NumInstans[i]);
+	    		//sprintf(my_string,"m=%3d f=%3d i=%d",mag_temp,wave_property_arr[i].freq,NumInstans[i]);
 			if ((k%20==0) || (k%20==1))
 			{
        
@@ -302,8 +302,8 @@ int IsAlarmDetected2()
 	 {
 		 if (NumInstans[i] < wave_property_arr[i].Th_NumInstans)
 		 {
-        detect = 0 ;
-        break;
+        		detect = 0 ;
+        		break;
 		 }			 
 	 }
 	 return(detect);

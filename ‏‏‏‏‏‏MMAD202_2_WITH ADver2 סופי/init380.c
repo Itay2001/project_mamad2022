@@ -1,4 +1,3 @@
-// init380.c
 /////////////////////////////////////
 //  Generated Initialization File  //
 /////////////////////////////////////
@@ -72,7 +71,7 @@ void Port_IO_Init()
     // P1.6  -  Unassigned,  Open-Drain, Digital
     // P1.7  -  Unassigned,  Open-Drain, Digital
 
-    // P2.0  -  Unassigned,  Open-Drain, Digital
+    // P2.0  -  Unassigned,  Push-Pull,  Digital
     // P2.1  -  Unassigned,  Open-Drain, Digital
     // P2.2  -  Unassigned,  Open-Drain, Digital
     // P2.3  -  Unassigned,  Open-Drain, Digital
@@ -93,6 +92,7 @@ void Port_IO_Init()
     P1MDIN    = 0xFE;
     P0MDOUT   = 0x15;
     P1MDOUT   = 0x0E;
+    P2MDOUT   = 0x01;
     P0SKIP    = 0xC8;
     P1SKIP    = 0x01;
     XBR0      = 0x03;
